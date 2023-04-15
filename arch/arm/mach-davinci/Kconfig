@@ -34,7 +34,8 @@ config SYS_DA850_PLL_INIT
 	bool
 
 config SYS_DA850_DDR_INIT
-	bool
+	bool "Enable DDR Initialization"
+	depends on SOC_DA850
 
 config SOC_DA850
 	bool

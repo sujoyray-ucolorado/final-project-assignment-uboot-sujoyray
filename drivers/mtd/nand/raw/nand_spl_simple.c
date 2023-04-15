@@ -18,7 +18,8 @@ static struct nand_chip nand_chip;
 #define ECCTOTAL	(ECCSTEPS * CONFIG_SYS_NAND_ECCBYTES)
 
 
-#if (CONFIG_SYS_NAND_PAGE_SIZE <= 512)
+//#if (CONFIG_SYS_NAND_PAGE_SIZE <= 512)
+#if 0
 /*
  * NAND command for small page NAND devices (512)
  */
@@ -208,6 +209,28 @@ static int nand_read_page(int block, int page, void *dst)
 }
 #endif
 
+void nand_id_get(void)
+{
+    unsigned char Id[4];
+    struct nand_chip *this = mtd_to_nand(mtd);
+    while (!this->dev_ready(mtd))
+        ;
+
+    /* Begin command latch cycle */
+    this->cmd_ctrl(mtd, NAND_CMD_READID, NAND_CTRL_CLE | NAND_CTRL_CHANGE);
+    /* Set ALE and clear CLE to start address cycle */
+    /* Column address */
+    this->cmd_ctrl(mtd, 0x0, NAND_CTRL_ALE | NAND_CTRL_CHANGE);
+
+  
+    while (!this->dev_ready(mtd))
+            ;
+    this->read_buf(mtd, &Id[0], 4);
+    printf("Nand ID Byte 0 = 0x%x, Byte 1 = 0x%x, Byte 2 = 0x%x Byte 3 = 0x%x\n", Id[0],Id[1],Id[2],Id[3]);
+    
+
+}
+
 /* nand_init() - initialize data to make nand usable by SPL */
 void nand_init(void)
 {
@@ -225,9 +248,9 @@ void nand_init(void)
 		nand_chip.ecc.correct = nand_correct_data;
 	}
 #endif
-
-	if (nand_chip.select_chip)
-		nand_chip.select_chip(mtd, 0);
+    nand_id_get();
+    if (nand_chip.select_chip)
+        nand_chip.select_chip(mtd, 0);
 }
 
 /* Unselect after operation */

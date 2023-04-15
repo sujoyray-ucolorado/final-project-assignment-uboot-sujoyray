@@ -731,7 +731,7 @@ static int nand_davinci_dev_ready(struct mtd_info *mtd)
 	return __raw_readl(&davinci_emif_regs->nandfsr) & 0x1;
 }
 
-static void davinci_nand_init(struct nand_chip *nand)
+void davinci_nand_init(struct nand_chip *nand)
 {
 #if defined CONFIG_KEYSTONE_RBL_NAND
 	int i;
@@ -832,6 +832,7 @@ void board_nand_init(void)
 int board_nand_init(struct nand_chip *chip) __attribute__((weak));
 int board_nand_init(struct nand_chip *chip)
 {
+    puts("davinci_nand_init\n");
 	davinci_nand_init(chip);
 	return 0;
 }

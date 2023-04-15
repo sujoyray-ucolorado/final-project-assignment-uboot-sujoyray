@@ -161,6 +161,7 @@ static int da850_pll_init(struct davinci_pllc_regs *reg, unsigned long pllmult)
 #if defined(CONFIG_SYS_DA850_DDR_INIT)
 static int da850_ddr_setup(void)
 {
+#if 0
 	unsigned long	tmp;
 
 	/* Enable the Clock to DDR2/mDDR */
@@ -246,7 +247,7 @@ static int da850_ddr_setup(void)
 	clrbits_le32(&dv_ddr2_regs_ctrl->sdrcr,
 		DV_DDR_SDRCR_LPMODEN | DV_DDR_SDRCR_MCLKSTOPEN);
 	writel(CONFIG_SYS_DA850_DDR2_PBBPR, &dv_ddr2_regs_ctrl->pbbpr);
-
+#endif
 	return 0;
 }
 #endif /* CONFIG_SYS_DA850_DDR_INIT */
