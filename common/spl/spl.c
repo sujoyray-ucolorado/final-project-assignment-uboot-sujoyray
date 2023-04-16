@@ -36,6 +36,7 @@ DECLARE_GLOBAL_DATA_PTR;
 #endif
 #ifndef CONFIG_SYS_MONITOR_LEN
 /* Unknown U-Boot size, let's assume it will not be more than 200 KB */
+#error
 #define CONFIG_SYS_MONITOR_LEN	(200 * 1024)
 #endif
 
